@@ -4,7 +4,7 @@
   "description": "CRUD commands for Discord Sababot and for Sababot's admin panel",
   "main": "index.ts",
   "scripts": {
-    "start": "cross-env NODE_ENV=production dist/index.js",
+    "start": "cross-env NODE_ENV=production node ./dist/index.js",
     "dev": "cross-env NODE_ENV=dev nodemon index.ts",
     "build": "tsc -p ."
   },
