@@ -16,7 +16,6 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
             return next(authErrorHandler(res));
         }
 
-        logger.info(`Authorized!`);
         return next();
 
     } catch (error) {
