@@ -14,6 +14,9 @@ const WordsSchema = new Schema<BaseObjectInterface>({
         type: String,
         required: true
     },
+    tSlug: {
+        type: String
+    }
 });
 
 const WordsModel = model<BaseObjectInterface>('words', WordsSchema);

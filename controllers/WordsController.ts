@@ -31,15 +31,19 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
 
         logger.info(`Search word by query: ${q}`);
 
-        const foundInfo = await WordsModel.find({
-            $or: [
-                { ru: { $regex: q } },
-                { tSlug: { $regex: q } },
-                { he: { $regex: q } },
-            ]
-        });
+        const regexOptions = new RegExp(`^[${q}0-9._-]+$`, "ig");
 
-        return next(successHandler(res, foundInfo, MyResponseType.created));
+        const findOptions = q ? {
+            $or: [
+                { ru: regexOptions },
+                { tSlug: regexOptions },
+                { he: regexOptions },
+            ]
+        } : {};
+
+        const foundInfo = await WordsModel.find(findOptions);
+
+        return next(successHandler(res, foundInfo, MyResponseType.ok));
 
     } catch (error) {
         const errorCasted = error as Error;
@@ -52,13 +56,13 @@ export const modify = async (req: Request, res: Response, next: NextFunction) =>
         const { id } = req.params;
         const { ru, translit, he } = req.body;
 
-        logger.info(`Trying to modify word ${id} => ${ru} / ${translit} / ${he}`);
+        logger.info(`Trying to modify word ${id} => ${ru ? ru : '(no changes)'} / ${translit ? translit : '(no changes)'} / ${he ? he : '(no changes)'}`);
 
         const modifiedRecord = await WordsModel.findByIdAndUpdate(id, {
             ru,
             translit,
             he
-        });
+        }, { new: true });
 
         return next(successHandler(res, modifiedRecord, MyResponseType.modified));
 
