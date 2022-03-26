@@ -39,7 +39,7 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
             ]
         } : {});
 
-        return next(successHandler(res, foundInfo, MyResponseType.created));
+        return next(successHandler(res, foundInfo, MyResponseType.ok));
 
     } catch (error) {
         const errorCasted = error as Error;
