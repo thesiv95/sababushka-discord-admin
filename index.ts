@@ -12,11 +12,6 @@ const app = express();
 app.use(express.json());
 app.use(auth);
 
-const PORT = process.env.PORT || 9000;
-app.listen(9000, async () => {
-    logger.info(`App started on port ${PORT}`)
-});
-
 // Routes
 app.use('/bituyim', routes.bituyimRouter);
 app.use('/nsfws', routes.nsfwsRouter);
@@ -24,4 +19,9 @@ app.use('/tshokim', routes.tshokimRouter);
 app.use('/words', routes.wordsRouter);
 app.use('/reminders', routes.remindersRouter);
 
-// Swagger
+// Start
+const HOST = '0.0.0.0';
+const PORT = +process.env.PORT! || 9000;
+app.listen(PORT, HOST, async () => {
+    logger.info(`App started on port ${PORT}`)
+});
