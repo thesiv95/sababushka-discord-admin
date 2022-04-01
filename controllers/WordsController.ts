@@ -29,7 +29,7 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const { q } = req.query;
 
-        logger.info(`Search word by query: ${q}`);
+        logger.info(`Search word by query: ${q ? q : '(no query)'}`);
 
         const pipeline = q ? {ru: q} : {};
         const foundInfo = await WordsModel.find(pipeline);
