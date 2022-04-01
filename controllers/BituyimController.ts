@@ -29,15 +29,15 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const { q } = req.params;
 
-        logger.info(`Search word by query: ${q}`);
+        logger.info(`Search word by query: ${q ? q : '(no query)'}`);
 
-        const foundInfo = await BituyimModel.find({
+        const foundInfo = await BituyimModel.find(q ? {
             $or: [
                 { ru: { $regex: q } },
                 { tSlug: { $regex: q } },
                 { he: { $regex: q } },
             ]
-        });
+        } : {});
 
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 
