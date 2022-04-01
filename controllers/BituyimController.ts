@@ -30,14 +30,9 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
         const { q } = req.params;
 
         logger.info(`Search word by query: ${q ? q : '(no query)'}`);
-
-        const foundInfo = await BituyimModel.find(q ? {
-            $or: [
-                { ru: { $regex: q } },
-                { tSlug: { $regex: q } },
-                { he: { $regex: q } },
-            ]
-        } : {});
+        
+        const pipeline = q ? {ru: q} : {};
+        const foundInfo = await BituyimModel.find(pipeline);
 
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 

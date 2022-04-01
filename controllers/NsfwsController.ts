@@ -31,13 +31,8 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
 
         logger.info(`Search NSFW-word by query: ${q ? q : '(no query)'}`);
 
-        const foundInfo = await NsfwsModel.find(q ? {
-            $or: [
-                { ru: { $regex: q } },
-                { tSlug: { $regex: q } },
-                { he: { $regex: q } },
-            ]
-        } : {});
+        const pipeline = q ? {ru: q} : {};
+        const foundInfo = await NsfwsModel.find(pipeline);
 
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 

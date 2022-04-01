@@ -31,13 +31,8 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
 
         logger.info(`Search tshok by query: ${q ? q : '(no query)'}`);
 
-        const foundInfo = await TshokimModel.find(q ? {
-            $or: [
-                { ru: { $regex: q } },
-                { tSlug: { $regex: q } },
-                { he: { $regex: q } },
-            ]
-        } : {});
+        const pipeline = q ? {ru: q} : {};
+        const foundInfo = await TshokimModel.find(pipeline);
 
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 

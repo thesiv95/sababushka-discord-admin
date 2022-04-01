@@ -31,17 +31,8 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
 
         logger.info(`Search word by query: ${q}`);
 
-        const regexOptions = new RegExp(`^[${q}0-9._-]+$`, "ig");
-
-        const findOptions = q ? {
-            $or: [
-                { ru: regexOptions },
-                { tSlug: regexOptions },
-                { he: regexOptions },
-            ]
-        } : {};
-
-        const foundInfo = await WordsModel.find(findOptions);
+        const pipeline = q ? {ru: q} : {};
+        const foundInfo = await WordsModel.find(pipeline);
 
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 
