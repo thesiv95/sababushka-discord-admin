@@ -2,17 +2,15 @@ import { Schema, model } from 'mongoose';
 
 interface ReminderInterface {
     userId: string,
-    active: boolean
+    isActive: boolean
 }
 
 const ReminderSchema = new Schema<ReminderInterface>({
     userId: {
         type: String,
-        required: true
     },
-    active: {
+    isActive: {
         type: Boolean,
-        required: true
     },
 });
 
