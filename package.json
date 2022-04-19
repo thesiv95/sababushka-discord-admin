@@ -6,7 +6,8 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node ./dist/index.js",
     "dev": "cross-env NODE_ENV=dev nodemon index.ts",
-    "build": "tsc -p ."
+    "build": "tsc -p .",
+    "changelog": "standard-version"
   },
   "keywords": [
     "discord",
@@ -27,7 +28,8 @@
   },
   "devDependencies": {
     "cz-conventional-changelog": "^3.3.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.15",
+    "standard-version": "^9.3.2"
   },
   "engines": {
     "node": "16.x"
