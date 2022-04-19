@@ -13,7 +13,6 @@ export const addNew = async (req: Request, res: Response, next: NextFunction) =>
             ru,
             translit,
             he,
-            tSlug: translit.toLowerCase(),
         });
 
         await newRecord.save();
@@ -27,12 +26,15 @@ export const addNew = async (req: Request, res: Response, next: NextFunction) =>
 
 export const search = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { q } = req.query;
+        const q = req.query.q as string;
 
         logger.info(`Search word by query: ${q ? q : '(no query)'}`);
 
-        const pipeline = q ? {ru: q} : {};
-        const foundInfo = await WordsModel.find(pipeline);
+        // If there are several options, limit response to 3 records (not to make discord message too big)
+        const limit = q ? 3 : 0;
+
+        const pipeline = q ? { ru: { $regex: q, $options: 'i' } } : {};
+        const foundInfo = await WordsModel.find(pipeline).limit(limit);
 
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 

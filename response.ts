@@ -29,7 +29,7 @@ export const authErrorHandler = (res: Response) => {
 export const errorHandler = (res: Response, error: Error) => {
     const isDev = process.env.NODE_ENV!.startsWith('dev');
 
-    logger.error(JSON.stringify(error));
+    logger.error(JSON.stringify(error.stack!));
 
     return res.status(500).send({
         isError: true,

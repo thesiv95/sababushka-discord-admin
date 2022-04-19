@@ -19,19 +19,22 @@ const userExists = async (userId: string, option: string): Promise<boolean> => {
 export const enableReminder = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.query.userId as string;
+        const userName = req.query.userName as string;
         const thisUserExists = await userExists(userId, 'on');
 
         if (thisUserExists) {
             await ReminderModel.findOneAndUpdate({ userId }, { isActive: true });
             return next(successHandler(res, {
                 userId,
+                userName,
                 isNewUser: false,
                 active: true
             }, MyResponseType.modified));
         } else {
-            await ReminderModel.create({ userId, isActive: true });
+            await ReminderModel.create({ userId, userName, isActive: true });
             return next(successHandler(res, {
                 userId,
+                userName,
                 isNewUser: true,
                 active: true
             }, MyResponseType.created));
@@ -45,19 +48,22 @@ export const enableReminder = async (req: Request, res: Response, next: NextFunc
 export const disableReminder = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.query.userId as string;
+        const userName = req.query.userName as string;
         const thisUserExists = await userExists(userId, 'off');
 
         if (thisUserExists) {
             await ReminderModel.findOneAndUpdate({ userId }, { isActive: false });
             return next(successHandler(res, {
                 userId,
+                userName,
                 isNewUser: false,
                 active: false
             }, MyResponseType.modified));
         } else {
-            await ReminderModel.create({ userId, isActive: false });
+            await ReminderModel.create({ userId, userName, isActive: false });
             return next(successHandler(res, {
                 userId,
+                userName,
                 isNewUser: true,
                 active: false
             }, MyResponseType.created));
@@ -68,7 +74,7 @@ export const disableReminder = async (req: Request, res: Response, next: NextFun
     }
 };
 
-export const getActiveUsers = async (req: Request, res: Response, next: NextFunction) => {
+export const getActiveUsers = async (_req: Request, res: Response, next: NextFunction) => {
     try {
         const users = await ReminderModel.find({ isActive: true });
         return next(successHandler(res, users, MyResponseType.ok));
