@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.1.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.0.1...v1.1.0) (2022-05-04)
+
+
+### Features
+
+* add cors ([10f7af1](https://github.com/thesiv95/sababushka-discord-admin/commit/10f7af190d939a2b71b5e0c69ff3c881a8a23df9))
+
 ### 1.0.1 (2022-04-19)
 
 
