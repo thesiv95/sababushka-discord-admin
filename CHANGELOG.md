@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.2.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.1.0...v1.2.0) (2022-05-07)
+
+
+### Features
+
+* add filter for hebrew and translit ([ff113bd](https://github.com/thesiv95/sababushka-discord-admin/commit/ff113bd70efbb40fb90b8b57428bf1c434c24718))
+
 ## [1.1.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.0.1...v1.1.0) (2022-05-04)
 
 
