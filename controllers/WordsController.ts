@@ -33,7 +33,15 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
         // If there are several options, limit response to 3 records (not to make discord message too big)
         const limit = q ? 3 : 0;
 
-        const pipeline = q ? { ru: { $regex: q, $options: 'i' } } : {};
+        const filter = {
+            $or: [
+                { ru: { $regex: q, $options: 'i' } },
+                { he: { $regex: q, $options: 'i' } },
+                { translit: { $regex: q, $options: 'i' } },
+            ]
+        };
+
+        const pipeline = q ? filter : {};
         const foundInfo = await WordsModel.find(pipeline).limit(limit);
 
         return next(successHandler(res, foundInfo, MyResponseType.ok));
