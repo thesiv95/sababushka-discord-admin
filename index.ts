@@ -20,6 +20,7 @@ app.use('/nsfws', routes.nsfwsRouter);
 app.use('/tshokim', routes.tshokimRouter);
 app.use('/words', routes.wordsRouter);
 app.use('/reminders', routes.remindersRouter);
+app.use('/youtube', routes.youtubeRouter);
 
 // Start
 const HOST = '0.0.0.0';

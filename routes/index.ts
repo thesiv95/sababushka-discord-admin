@@ -3,6 +3,7 @@ import nsfwsRouter from "./NsfwsRouter";
 import tshokimRouter from "./TshokimRouter";
 import wordsRouter from "./WordsRouter";
 import remindersRouter from "./RemindersRouter";
+import youtubeRouter from "./YoutubeRouter";
 
 export {
     bituyimRouter,
@@ -10,4 +11,5 @@ export {
     tshokimRouter,
     wordsRouter,
     remindersRouter,
+    youtubeRouter,
 }
