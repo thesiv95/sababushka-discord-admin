@@ -39,8 +39,8 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
         searchQuery = { title: { $regex: query, $options: 'i' } };
         logger.info(`Search youtube lesson: q=${query}`);
 
-
-        const foundInfo = await YoutubeModel.find(searchQuery);
+        // limit to 3 not to pollute chat
+        const foundInfo = await YoutubeModel.find(searchQuery).limit(3);
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 
     } catch (error) {
