@@ -26,10 +26,9 @@ export const addNew = async (req: Request, res: Response, next: NextFunction) =>
 
 export const search = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const index = +req.query.index!;
-        const title = req.query.title as string;
+        const query = req.query.query as string;
 
-        if (!index && !title) {
+        if (!query) {
             logger.info(`Request for latest lesson`);
             const lastLessonInfo = await YoutubeModel.find().sort({ index: -1 }).limit(1);
             return next(successHandler(res, lastLessonInfo[0], MyResponseType.ok));
@@ -37,20 +36,9 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
 
         let searchQuery = {};
 
-        if (title && !index) {
-            searchQuery = { title: { $regex: title, $options: 'i' } };
-            logger.info(`Search youtube lesson: title ${title}`);
-        }
+        searchQuery = { title: { $regex: query, $options: 'i' } };
+        logger.info(`Search youtube lesson: q=${query}`);
 
-        if (!title && index) { 
-            searchQuery = { index };
-            logger.info(`Search youtube lesson: index ${index}`);
-        };
-
-        if (index && title) {
-            logger.info('Search youtube lesson: both params used for request');
-            throw new Error('Please select something one!');
-        }
 
         const foundInfo = await YoutubeModel.find(searchQuery);
         return next(successHandler(res, foundInfo, MyResponseType.ok));
