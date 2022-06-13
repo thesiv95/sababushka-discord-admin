@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.3.1...v1.3.0) (2022-06-13)
+
+
+### Features
+
+* add restore route + fix lessons query ([45c8596](https://github.com/thesiv95/sababushka-discord-admin/commit/45c85964395bcd7fd7075c065a2ba450ff28165a))
+
 ## [1.2.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.1.0...v1.2.0) (2022-05-07)
 
 
