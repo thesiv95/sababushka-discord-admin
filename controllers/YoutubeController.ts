@@ -41,10 +41,10 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
         const isNumber = parseInt(title).toString().length === title.length;
 
         if (isNumber) {
-            logger.info('lesson: number');
+            logger.info('lesson: number ' + title);
             searchQuery = { index: title, };
         } else {
-            logger.info('lesson: word');
+            logger.info('lesson: word ' + title);
             searchQuery = { title: { $regex: title, $options: 'i' } };
         }
 
