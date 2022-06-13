@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import NsfwsModel from '../models/NsfwsModel';
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import logger from '../utils/logger';
+import dataArray from '../json/nsfws.json';
 
 export const addNew = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -91,3 +92,33 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
         return next(errorHandler(res, errorCasted));
     }
 };
+
+export const restore = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+        logger.info('restoring nsfws');
+
+        const insertDataMapped = dataArray.map((el) => {
+            return {
+                insertOne: {
+                    document: {
+                        he: el.he,
+                        translit: el.translit,
+                        ru: el.ru
+                    }
+                } 
+            }
+        });
+
+        const pipeline: any[] = [
+            { deleteMany: { filter: {} } },
+            ...insertDataMapped,
+        ];
+        
+        await NsfwsModel.bulkWrite(pipeline);
+
+        return next(successHandler(res, { restored: true }, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}

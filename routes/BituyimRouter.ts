@@ -5,6 +5,7 @@ const bituyimRouter = Router();
 
 bituyimRouter.post('/addNew', BituyimController.addNew);
 bituyimRouter.get('/search', BituyimController.search);
+bituyimRouter.get('/restore', BituyimController.restore);
 bituyimRouter.put('/modify/:id', BituyimController.modify);
 bituyimRouter.delete('/remove/:id', BituyimController.remove);
 

@@ -2,6 +2,8 @@ import { Request, Response, NextFunction } from 'express';
 import BituyimModel from '../models/BituyimModel';
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import logger from '../utils/logger';
+import dataArray from '../json/bituyims.json';
+
 
 export const addNew = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -90,3 +92,33 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
         return next(errorHandler(res, errorCasted));
     }
 };
+
+export const restore = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+        logger.info('restoring bituyims');
+
+        const insertDataMapped = dataArray.map((el) => {
+            return {
+                insertOne: {
+                    document: {
+                        he: el.he,
+                        translit: el.translit,
+                        ru: el.ru
+                    }
+                } 
+            }
+        });
+
+        const pipeline: any[] = [
+            { deleteMany: { filter: {} } },
+            ...insertDataMapped,
+        ];
+        
+        await BituyimModel.bulkWrite(pipeline);
+
+        return next(successHandler(res, { restored: true }, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}

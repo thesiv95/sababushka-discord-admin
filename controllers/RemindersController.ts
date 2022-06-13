@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import ReminderModel from '../models/ReminderModel';
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import logger from '../utils/logger';
+import dataArray from '../json/reminders.json';
 
 const userExists = async (userId: string, option: string): Promise<boolean> => {
     try {
@@ -78,6 +79,47 @@ export const getActiveUsers = async (_req: Request, res: Response, next: NextFun
     try {
         const users = await ReminderModel.find({ isActive: true });
         return next(successHandler(res, users, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}
+
+export const remove = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { userId } = req.params;
+        const deletedRecord = await ReminderModel.findOneAndDelete({ userId });
+        return next(successHandler(res, deletedRecord, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}
+
+export const restore = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+        logger.info('restoring reminders');
+
+        const insertDataMapped = dataArray.map((el) => {
+            return {
+                insertOne: {
+                    document: {
+                        isActive: el.isActive,
+                        userId: el.userId,
+                        userName: el.userName,
+                    }
+                } 
+            }
+        });
+
+        const pipeline: any[] = [
+            { deleteMany: { filter: {} } },
+            ...insertDataMapped,
+        ];
+        
+        await ReminderModel.bulkWrite(pipeline);
+
+        return next(successHandler(res, { restored: true }, MyResponseType.ok));
     } catch (error) {
         const errorCasted = error as Error;
         return next(errorHandler(res, errorCasted));

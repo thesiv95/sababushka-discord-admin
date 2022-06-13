@@ -2,6 +2,7 @@ import { Request, Response, NextFunction } from 'express';
 import YoutubeModel from '../models/YoutubeModel';
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import logger from '../utils/logger';
+import dataArray from '../json/youtube-lessons.json';
 
 export const addNew = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -26,20 +27,27 @@ export const addNew = async (req: Request, res: Response, next: NextFunction) =>
 
 export const search = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const query = req.query.query as string;
+        const title = req.query.title as string;
 
-        if (!query) {
+        if (!title) {
             logger.info(`Request for latest lesson`);
             const lastLessonInfo = await YoutubeModel.find().sort({ index: -1 }).limit(1);
             return next(successHandler(res, lastLessonInfo[0], MyResponseType.ok));
         }
 
-        let searchQuery = {};
+        let searchQuery;
 
-        searchQuery = { title: { $regex: query, $options: 'i' } };
-        logger.info(`Search youtube lesson: q=${query}`);
+        // if it is a number
+        const isNumber = parseInt(title).toString().length === title.length;
 
-        // limit to 3 not to pollute chat
+        if (isNumber) {
+            logger.info('lesson: number');
+            searchQuery = { index: title, };
+        } else {
+            logger.info('lesson: word');
+            searchQuery = { title: { $regex: title, $options: 'i' } };
+        }
+
         const foundInfo = await YoutubeModel.find(searchQuery).limit(3);
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 
@@ -85,3 +93,33 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
         return next(errorHandler(res, errorCasted));
     }
 };
+
+export const restore = async (_req: Request, res: Response, next: NextFunction) => {
+    try {
+        logger.info('restoring youtube lessons');
+
+        const insertDataMapped = dataArray.map((el) => {
+            return {
+                insertOne: {
+                    document: {
+                        index: el.index,
+                        title: el.title,
+                        url: el.url,
+                    }
+                } 
+            }
+        });
+
+        const pipeline: any[] = [
+            { deleteMany: { filter: {} } },
+            ...insertDataMapped,
+        ];
+        
+        await YoutubeModel.bulkWrite(pipeline);
+
+        return next(successHandler(res, { restored: true }, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}
