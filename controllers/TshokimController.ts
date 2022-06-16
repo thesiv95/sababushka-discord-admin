@@ -92,6 +92,24 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     }
 };
 
+export const getAllItems = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+       // This route is for admin panel only
+       const page = +req.query.page! || 1;
+       const itemsPerPage = 5;
+       const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
+       
+       logger.info(`tshokim page ${page}`);
+
+       const foundInfo = await TshokimModel.find({}).skip(skip).limit(itemsPerPage);
+
+       return next(successHandler(res, foundInfo, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}
+
 export const restore = async (_req: Request, res: Response, next: NextFunction) => {
     try {
         logger.info('restoring tshokims');

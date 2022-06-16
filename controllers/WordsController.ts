@@ -53,6 +53,24 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
     }
 };
 
+export const getAllItems = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+       // This route is for admin panel only
+       const page = +req.query.page! || 1;
+       const itemsPerPage = 10;
+       const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
+       
+       logger.info(`words page ${page}`);
+
+       const foundInfo = await WordsModel.find({}).skip(skip).limit(itemsPerPage);
+
+       return next(successHandler(res, foundInfo, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}
+
 export const modify = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;

@@ -26,6 +26,24 @@ export const addNew = async (req: Request, res: Response, next: NextFunction) =>
     }
 };
 
+export const getAllItems = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+       // This route is for admin panel only
+       const page = +req.query.page! || 1;
+       const itemsPerPage = 10;
+       const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
+       
+       logger.info(`bituyim page ${page}`);
+
+       const foundInfo = await BituyimModel.find({}).skip(skip).limit(itemsPerPage);
+
+       return next(successHandler(res, foundInfo, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}
+
 export const search = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const q = req.query.q as string;

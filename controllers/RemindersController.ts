@@ -46,6 +46,27 @@ export const enableReminder = async (req: Request, res: Response, next: NextFunc
     }
 };
 
+export const addUser = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { userId, userName } = req.body;
+
+        logger.info(`Trying to create new user for reminder: ${userId} / ${userName}`);
+
+        const newRecord = new ReminderModel({
+            userId,
+            userName,
+            isActive: true,
+        });
+
+        await newRecord.save();
+
+        return next(successHandler(res, newRecord, MyResponseType.created));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+};
+
 export const disableReminder = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const userId = req.query.userId as string;
@@ -85,9 +106,40 @@ export const getActiveUsers = async (_req: Request, res: Response, next: NextFun
     }
 }
 
+export const getAllItems = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+       // This route is for admin panel only
+       const page = +req.query.page! || 1;
+       const itemsPerPage = 10;
+       const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
+       
+       logger.info(`yt lessons page ${page}`);
+
+       const foundInfo = await ReminderModel.find().skip(skip).limit(itemsPerPage);
+
+       return next(successHandler(res, foundInfo, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}
+
+export const getItemsByNickname = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const userName = req.query.name as string;
+        const foundInfo = await ReminderModel.find({ userName });
+
+        return next(successHandler(res, foundInfo, MyResponseType.ok));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+}
+
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { userId } = req.params;
+        
         const deletedRecord = await ReminderModel.findOneAndDelete({ userId });
         return next(successHandler(res, deletedRecord, MyResponseType.ok));
     } catch (error) {
