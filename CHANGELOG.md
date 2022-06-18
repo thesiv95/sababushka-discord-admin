@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.4.1](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.4.0...v1.4.1) (2022-06-18)
+
+
+### Bug Fixes
+
+* youtube lessons are shown from latest ([cedd28e](https://github.com/thesiv95/sababushka-discord-admin/commit/cedd28e36c4f85afb11c14a13648bb6010258dfc))
+
 ## [1.3.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.3.2...v1.3.0) (2022-06-16)
 
 
