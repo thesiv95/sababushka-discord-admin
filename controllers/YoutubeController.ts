@@ -34,7 +34,7 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
        
        logger.info(`yt lessons page ${page}`);
 
-       const foundInfo = await YoutubeModel.find({}).skip(skip).limit(itemsPerPage);
+       const foundInfo = await YoutubeModel.find({}).sort({ index: -1 }).skip(skip).limit(itemsPerPage);
 
        return next(successHandler(res, foundInfo, MyResponseType.ok));
     } catch (error) {
