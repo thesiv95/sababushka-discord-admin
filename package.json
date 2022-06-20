@@ -4,7 +4,7 @@
   "description": "CRUD commands for Discord Sababot and for Sababot's admin panel",
   "main": "index.ts",
   "scripts": {
-    "prestart": "echo Compiling... & npm run build",
+    "prestart": "echo Compiling... && npm run build",
     "start": "cross-env NODE_ENV=production node ./dist/index.js",
     "dev": "cross-env NODE_ENV=dev nodemon index.ts",
     "build": "tsc -p .",
@@ -27,10 +27,10 @@
     "mongoose": "^6.2.3",
     "ts-node": "^10.5.0",
     "typescript": "^4.5.5",
-    "winston": "^3.6.0"
+    "winston": "^3.6.0",
+    "@types/cors": "^2.8.12",
   },
   "devDependencies": {
-    "@types/cors": "^2.8.12",
     "cz-conventional-changelog": "^3.0.1",
     "nodemon": "^2.0.15",
     "standard-version": "^9.3.2"
