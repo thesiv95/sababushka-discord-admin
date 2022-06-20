@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [1.3.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.4.1...v1.3.0) (2022-06-20)
+
+
+### Features
+
+* updated backups, sort ([3b1e6c3](https://github.com/thesiv95/sababushka-discord-admin/commit/3b1e6c3160f1e0162ac61d315b56f8c212ae86fe))
+
 ## [1.2.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.1.0...v1.2.0) (2022-05-07)
 
 
