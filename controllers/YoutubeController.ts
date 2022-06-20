@@ -3,6 +3,7 @@ import YoutubeModel from '../models/YoutubeModel';
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import logger from '../utils/logger';
 import dataArray from '../json/youtube-lessons.json';
+import SortEnum from '../enums/sort.enum';
 
 export const addNew = async (req: Request, res: Response, next: NextFunction) => {
     try {
@@ -31,10 +32,12 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
        const page = +req.query.page! || 1;
        const itemsPerPage = 10;
        const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
+       const sort = +req.query.sort! || SortEnum.desc;
+       const sortOption = sort === SortEnum.asc ? SortEnum.asc : SortEnum.desc;
        
-       logger.info(`yt lessons page ${page}`);
+       logger.info(`yt lessons page ${page} - sort ${sortOption}`);
 
-       const foundInfo = await YoutubeModel.find({}).sort({ index: -1 }).skip(skip).limit(itemsPerPage);
+       const foundInfo = await YoutubeModel.find({}).sort({ index: sortOption }).skip(skip).limit(itemsPerPage);
 
        return next(successHandler(res, foundInfo, MyResponseType.ok));
     } catch (error) {

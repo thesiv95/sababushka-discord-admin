@@ -3,6 +3,7 @@ import BituyimModel from '../models/BituyimModel';
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import logger from '../utils/logger';
 import dataArray from '../json/bituyims.json';
+import SortEnum from '../enums/sort.enum';
 
 
 export const addNew = async (req: Request, res: Response, next: NextFunction) => {
@@ -32,10 +33,13 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
        const page = +req.query.page! || 1;
        const itemsPerPage = 10;
        const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
+       // show last items by default
+       const sort = +req.query.sort! || SortEnum.desc;
+       const sortOption = sort === SortEnum.asc ? SortEnum.asc : SortEnum.desc;
        
-       logger.info(`bituyim page ${page}`);
+       logger.info(`bituyim page ${page} - sort ${sortOption}`);
 
-       const foundInfo = await BituyimModel.find({}).skip(skip).limit(itemsPerPage);
+       const foundInfo = await BituyimModel.find({}).sort({ _id: sortOption }).skip(skip).limit(itemsPerPage);
 
        return next(successHandler(res, foundInfo, MyResponseType.ok));
     } catch (error) {

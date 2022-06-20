@@ -3,6 +3,7 @@ import ReminderModel from '../models/ReminderModel';
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import logger from '../utils/logger';
 import dataArray from '../json/reminders.json';
+import SortEnum from '../enums/sort.enum';
 
 const userExists = async (userId: string, option: string): Promise<boolean> => {
     try {
@@ -112,10 +113,13 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
        const page = +req.query.page! || 1;
        const itemsPerPage = 10;
        const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
+       // show last items by default
+       const sort = +req.query.sort! || SortEnum.desc;
+       const sortOption = sort === SortEnum.asc ? SortEnum.asc : SortEnum.desc;
        
-       logger.info(`yt lessons page ${page}`);
+       logger.info(`yt lessons page ${page} - sort ${sortOption}`);
 
-       const foundInfo = await ReminderModel.find().skip(skip).limit(itemsPerPage);
+       const foundInfo = await ReminderModel.find({}).sort({ _id: sortOption }).skip(skip).limit(itemsPerPage);
 
        return next(successHandler(res, foundInfo, MyResponseType.ok));
     } catch (error) {
