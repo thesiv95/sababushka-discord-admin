@@ -4,6 +4,7 @@ import tshokimRouter from "./TshokimRouter";
 import wordsRouter from "./WordsRouter";
 import remindersRouter from "./RemindersRouter";
 import youtubeRouter from "./YoutubeRouter";
+import shoversRouter from "./ShoversRouter";
 
 export {
     bituyimRouter,
@@ -12,4 +13,5 @@ export {
     wordsRouter,
     remindersRouter,
     youtubeRouter,
+    shoversRouter,
 }

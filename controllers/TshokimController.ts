@@ -30,10 +30,23 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const q = req.query.q as string;
 
-        logger.info(`Search tshok by query: ${q ? q : '(no query)'}`);
+        
+        // true = from admin panel, false = from bot (=> how many records to limit)
+        const admin = req.query.admin as string;
+        const isAdmin: boolean = Boolean(admin) || false;
+        logger.info(`Search tshok by query: ${q ? q : '(no query)'} - ${isAdmin ? 'admin' : 'bot'}`);
+        let limit;
 
-        // If there are several options, limit response to 3 records (not to make discord message too big)
-        const limit = q ? 3 : 0;
+        if (q && !isAdmin) { // it is from bot with query
+            limit = 3; // should be only first 3 items found in bot msg
+        } else if (q && isAdmin) { // it is from admin panel
+            limit = 10;
+        } else if (!q && !isAdmin) { // it is from bot without query
+            limit = 0;
+        } else { // any other case (as a rule it will not go here but just in case)
+            limit = 0;
+        }
+
 
         const filter = {
             $or: [

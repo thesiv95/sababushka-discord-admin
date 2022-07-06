@@ -21,6 +21,7 @@ app.use('/tshokim', routes.tshokimRouter);
 app.use('/words', routes.wordsRouter);
 app.use('/reminders', routes.remindersRouter);
 app.use('/youtube', routes.youtubeRouter);
+app.use('/shovers', routes.shoversRouter);
 
 // Start
 const HOST = '0.0.0.0';

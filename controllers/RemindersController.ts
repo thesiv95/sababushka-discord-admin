@@ -117,7 +117,7 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
        const sort = +req.query.sort! || SortEnum.desc;
        const sortOption = sort === SortEnum.asc ? SortEnum.asc : SortEnum.desc;
        
-       logger.info(`yt lessons page ${page} - sort ${sortOption}`);
+       logger.info(`reminders page ${page} - sort ${sortOption}`);
 
        const foundInfo = await ReminderModel.find({}).sort({ _id: sortOption }).skip(skip).limit(itemsPerPage);
 

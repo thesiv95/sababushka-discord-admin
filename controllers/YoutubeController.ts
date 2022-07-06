@@ -56,20 +56,36 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
             return next(successHandler(res, lastLessonInfo[0], MyResponseType.ok));
         }
 
+        // true = from admin panel, false = from bot (=> how many records to limit)
+        const admin = req.query.admin as string;
+        const isAdmin: boolean = Boolean(admin) || false;
+
         let searchQuery;
 
         // if it is a number
         const isNumber = parseInt(title).toString().length === title.length;
 
         if (isNumber) {
-            logger.info('lesson: number');
+            logger.info(`lesson: number, ${title} - ${isAdmin ? 'admin' : 'bot'}`);
             searchQuery = { index: title, };
         } else {
-            logger.info('lesson: word');
+            logger.info(`lesson: word, ${title} - ${isAdmin ? 'admin' : 'bot'}`);
             searchQuery = { title: { $regex: title, $options: 'i' } };
         }
 
-        const foundInfo = await YoutubeModel.find(searchQuery).limit(3);
+        let limit;
+
+        if (title && !isAdmin) { // it is from bot with query
+            limit = 3; // should be only first 3 items found in bot msg
+        } else if (title && isAdmin) { // it is from admin panel
+            limit = 10;
+        } else if (!title && !isAdmin) { // it is from bot without query
+            limit = 0;
+        } else { // any other case (as a rule it will not go here but just in case)
+            limit = 0;
+        }
+
+        const foundInfo = await YoutubeModel.find(searchQuery).limit(limit);
         return next(successHandler(res, foundInfo, MyResponseType.ok));
 
     } catch (error) {
