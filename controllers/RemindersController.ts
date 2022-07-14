@@ -24,6 +24,8 @@ export const enableReminder = async (req: Request, res: Response, next: NextFunc
         const userName = req.query.userName as string;
         const thisUserExists = await userExists(userId, 'on');
 
+        logger.info(`${userName} tried to enable reminder`);
+
         if (thisUserExists) {
             await ReminderModel.findOneAndUpdate({ userId }, { isActive: true });
             return next(successHandler(res, {
@@ -73,6 +75,8 @@ export const disableReminder = async (req: Request, res: Response, next: NextFun
         const userId = req.query.userId as string;
         const userName = req.query.userName as string;
         const thisUserExists = await userExists(userId, 'off');
+
+        logger.info(`${userName} tried to disable reminder`);
 
         if (thisUserExists) {
             await ReminderModel.findOneAndUpdate({ userId }, { isActive: false });
@@ -143,6 +147,8 @@ export const getItemsByNickname = async (req: Request, res: Response, next: Next
 export const remove = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { userId } = req.params;
+
+        logger.info(`user ${userId} removal attempt`);
         
         const deletedRecord = await ReminderModel.findOneAndDelete({ userId });
         return next(successHandler(res, deletedRecord, MyResponseType.ok));

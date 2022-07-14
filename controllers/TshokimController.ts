@@ -78,7 +78,7 @@ export const modify = async (req: Request, res: Response, next: NextFunction) =>
             ru,
             translit,
             he
-        });
+        }, { new: true });
 
         return next(successHandler(res, modifiedRecord, MyResponseType.modified));
 
