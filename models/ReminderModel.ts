@@ -9,7 +9,7 @@ interface ReminderInterface {
 const ReminderSchema = new Schema<ReminderInterface>({
     userId: {
         type: String,
-        maxlength: 18
+        maxlength: 19
     },
     userName: {
         type: String,
