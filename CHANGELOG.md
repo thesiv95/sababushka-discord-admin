@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.5.1](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.5.0...v1.5.1) (2022-08-06)
+
+
+### Bug Fixes
+
+* increase user id limit to 19 in reminder model ([1b93edb](https://github.com/thesiv95/sababushka-discord-admin/commit/1b93edb401ac707c05c573b55fb0974d71739d24))
+* maxLength of reminder user id, return updated obj in modify ([0278df3](https://github.com/thesiv95/sababushka-discord-admin/commit/0278df3bed447578f6bc1839c113980f09b9b89c))
+
 ## [1.5.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.4.1...v1.5.0) (2022-07-06)
 
 
