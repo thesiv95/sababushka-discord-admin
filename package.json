@@ -9,8 +9,7 @@
     "dev": "cross-env NODE_ENV=dev nodemon index.ts",
     "build": "tsc -p .",
     "changelog": "standard-version",
-    "pushProd": "git push heroku main",
-    "commitJSONDictionaries": "bash -e commitDic.sh"
+    "pushProd": "git push heroku main"
   },
   "keywords": [
     "discord",
