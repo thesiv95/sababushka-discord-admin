@@ -3,3 +3,6 @@ logs/
 npm-debug.log
 dist/
 .env
+
+# SSH server keys
+*.pem
