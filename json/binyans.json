@@ -1,0 +1,26 @@
+[{
+  "translit": "леэхов",
+  "ru": "любить",
+  "color": "#3fcdff",
+  "infinitive": "לאהוב",
+  "binyanType": "פעל",
+  "root": "א-ה-ב",
+  "timePresent": {
+    "maleSingle": "אהוב",
+    "femaleSingle": "אהובת",
+    "malePlural": "אהובים",
+    "femalePlural": "אהובות"
+  },
+  "timePast": {
+    "me": "אהבתי",
+    "youMaleSingle": "אהבת",
+    "youFemaleSingle": "אהבת",
+    "he": "אהב",
+    "she": "אהבה",
+    "we": "אהבנו",
+    "youMalePlural": "אהבתם",
+    "youFemalePlural": "אהבתן",
+    "theyMalePlural": "אהבו",
+    "theyFemalePlural": "אהבו"
+  }
+}]

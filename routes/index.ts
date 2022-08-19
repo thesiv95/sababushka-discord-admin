@@ -5,6 +5,7 @@ import wordsRouter from "./WordsRouter";
 import remindersRouter from "./RemindersRouter";
 import youtubeRouter from "./YoutubeRouter";
 import shoversRouter from "./ShoversRouter";
+import binyanRouter from "./BinyanRouter";
 
 export {
     bituyimRouter,
@@ -14,4 +15,5 @@ export {
     remindersRouter,
     youtubeRouter,
     shoversRouter,
+    binyanRouter,
 }

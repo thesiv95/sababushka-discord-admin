@@ -22,6 +22,7 @@ app.use('/words', routes.wordsRouter);
 app.use('/reminders', routes.remindersRouter);
 app.use('/youtube', routes.youtubeRouter);
 app.use('/shovers', routes.shoversRouter);
+app.use('/binyans', routes.binyanRouter);
 
 // Start
 const HOST = '0.0.0.0';
