@@ -112,7 +112,6 @@ export const restore = async (_req: Request, res: Response, next: NextFunction) 
                         translit: el.translit,
                         ru: el.ru,
                         infinitive: el.infinitive,
-                        color: el.color,
                         binyanType: el.binyanType,
                         root: el.root,
                         timePresent: el.timePresent,

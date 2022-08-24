@@ -4,7 +4,6 @@ interface BinyanInterface {
     translit: string,
     ru: string,
     // extra options
-    color: string | null,
     infinitive: string | null,
     binyanType: string | null,
     root: string | null,
@@ -38,10 +37,6 @@ const BinyanSchema = new Schema<BinyanInterface>({
         required: true
     },
     // extra options
-    color: {
-        type: String,
-        required: false
-    },
     infinitive: {
         type: String,
         required: false
