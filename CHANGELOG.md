@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.1](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.6.0...v1.6.1) (2022-08-24)
+
+
+### Bug Fixes
+
+* remove useless color prop for binyans cmd ([c8cf9d9](https://github.com/thesiv95/sababushka-discord-admin/commit/c8cf9d966cf34f79df735f14251b081984f48d78))
+
 ## [1.6.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.5.1...v1.6.0) (2022-08-19)
 
 
