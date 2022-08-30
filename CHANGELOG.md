@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [1.6.2](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.6.1...v1.6.2) (2022-08-30)
+
+
+### Bug Fixes
+
+* **binyan:** add missing routes ([ac0c5bf](https://github.com/thesiv95/sababushka-discord-admin/commit/ac0c5bf2051ed60cc152d6accd0c81c83c9036d6))
+* **binyan:** modify route correction ([742dcff](https://github.com/thesiv95/sababushka-discord-admin/commit/742dcffcdfb9730c2e1519fb85fdb03d4cc8772b))
+
 ### [1.6.1](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.6.0...v1.6.1) (2022-08-24)
 
 
