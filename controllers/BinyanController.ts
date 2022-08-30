@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import SortEnum from '../enums/sort.enum';
-import BinyanModel from "../models/BinyanModel";
+import BinyanModel from "../models/BinyanModel.ts";
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import dataArray from '../json/binyans.json';
 import logger from '../utils/logger';
@@ -81,7 +81,7 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
     try {
        // This route is for admin panel only
        const page = +req.query.page! || 1;
-       const itemsPerPage = 10;
+       const itemsPerPage = 2; // yeah, they are too big...
        const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
        // show last items by default
        const sort = +req.query.sort! || SortEnum.desc;
