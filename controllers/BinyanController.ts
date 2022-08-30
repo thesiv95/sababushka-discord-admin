@@ -1,6 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import SortEnum from '../enums/sort.enum';
-import BinyanModel from "../models/BinyanModel.ts";
+import BinyanModel from "../models/BinyanModel";
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import dataArray from '../json/binyans.json';
 import logger from '../utils/logger';
@@ -113,7 +113,7 @@ export const modify = async (req: Request, res: Response, next: NextFunction) =>
 
         logger.info(`Trying to modify binyan ${id} => ${ru} / ${translit}`);
 
-        const modifiedRecord = await BituyimModel.findByIdAndUpdate(id, {
+        const modifiedRecord = await BinyanModel.findByIdAndUpdate(id, {
             ru,
             translit,
             he
@@ -134,7 +134,7 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
 
         logger.info(`Trying to delete binyan ${id}`);
 
-        const deletedRecord = await BituyimModel.findByIdAndDelete(id);
+        const deletedRecord = await BinyanModel.findByIdAndDelete(id);
 
         return next(successHandler(res, deletedRecord, MyResponseType.ok));
 
