@@ -5,13 +5,11 @@ import { errorHandler, MyResponseType, successHandler } from '../response';
 import dataArray from '../json/binyans.json';
 import logger from '../utils/logger';
 
-
 export const addNew = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { 
             ru,
             translit,
-            color,
             infinitive,
             binyanType,
             root,
@@ -24,7 +22,6 @@ export const addNew = async (req: Request, res: Response, next: NextFunction) =>
         const newRecord = new BinyanModel({
             ru,
             translit,
-            color,
             infinitive,
             binyanType,
             root,
@@ -100,6 +97,53 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
         return next(errorHandler(res, errorCasted));
     }
 }
+
+export const modify = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+        const { 
+            ru,
+            translit,
+            infinitive,
+            binyanType,
+            root,
+            timePresent,
+            timePast
+         } = req.body;
+
+        logger.info(`Trying to modify binyan ${id} => ${ru} / ${translit}`);
+
+        const modifiedRecord = await BituyimModel.findByIdAndUpdate(id, {
+            ru,
+            translit,
+            he
+        }, { new: true });
+
+        return next(successHandler(res, modifiedRecord, MyResponseType.modified));
+
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+};
+
+// delete is a reserved word, so 'remove' should be used instead
+export const remove = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const { id } = req.params;
+
+        logger.info(`Trying to delete binyan ${id}`);
+
+        const deletedRecord = await BituyimModel.findByIdAndDelete(id);
+
+        return next(successHandler(res, deletedRecord, MyResponseType.ok));
+
+
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+};
 
 export const restore = async (_req: Request, res: Response, next: NextFunction) => {
     try {

@@ -113,7 +113,7 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const { id } = req.params;
 
-        logger.info(`Trying to delete word ${id}`);
+        logger.info(`Trying to delete bituy ${id}`);
 
         const deletedRecord = await BituyimModel.findByIdAndDelete(id);
 
