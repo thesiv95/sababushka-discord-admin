@@ -116,7 +116,11 @@ export const modify = async (req: Request, res: Response, next: NextFunction) =>
         const modifiedRecord = await BinyanModel.findByIdAndUpdate(id, {
             ru,
             translit,
-            he
+            infinitive,
+            binyanType,
+            root,
+            timePresent,
+            timePast
         }, { new: true });
 
         return next(successHandler(res, modifiedRecord, MyResponseType.modified));
