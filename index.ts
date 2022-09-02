@@ -1,9 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import { config } from 'dotenv';
 import auth from './utils/auth';
 import dbConnection from './models/dbConnection';
 import * as routes from './routes';
 import logger from './utils/logger';
+
+// env init
+config();
 
 // DB async connection
 dbConnection().catch(err => logger.info(err));
@@ -29,4 +33,5 @@ const HOST = '0.0.0.0';
 const PORT = +process.env.PORT! || 9000;
 app.listen(PORT, HOST, async () => {
     logger.info(`App started on port ${PORT}`)
+    if (process.env.NODE_ENV === 'dev') logger.warn('dev mode!');
 });
