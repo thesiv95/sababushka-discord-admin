@@ -12,7 +12,7 @@ const auth = (req: Request, res: Response, next: NextFunction) => {
         const envApiKey = process.env.API_KEY as string;
 
         if (apiKey !== envApiKey) {
-            logger.warn(`Provided key ${apiKey} is incorrect!`);
+            logger.warn(`Someone could not authorize: provided key ${apiKey} is incorrect! | IP: ${req.ip} | Date: ${new Date().toLocaleString()}`);
             return next(authErrorHandler(res));
         }
 
