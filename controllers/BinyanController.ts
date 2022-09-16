@@ -81,7 +81,7 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
     try {
        // This route is for admin panel only
        const page = +req.query.page! || 1;
-       const itemsPerPage = 3; // yeah, they are too big...
+       const itemsPerPage = 4; // yeah, they are too big...
        const skip = page > 1 ? itemsPerPage * (page - 1) : 0;
        // show last items by default
        const sort = +req.query.sort! || SortEnum.desc;
