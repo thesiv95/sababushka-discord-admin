@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.1.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.0.0...v1.1.0) (2022-09-23)
+
+
+### Features
+
+* add x2 command routes ([c92e807](https://github.com/thesiv95/sababushka-discord-admin/commit/c92e807700d035b4772f5406b6041f41b9cd9dfb))
+* add x2 command routes ([33d4242](https://github.com/thesiv95/sababushka-discord-admin/commit/33d4242c6136ef120f0f08d165a2828c1a489179))
+
 ## 1.0.0 (2022-08-31)
 
 
