@@ -20,6 +20,7 @@ app.use(auth);
 
 // Routes
 app.use('/bituyim', routes.bituyimRouter);
+app.use('/doubles', routes.doubleRouter);
 app.use('/nsfws', routes.nsfwsRouter);
 app.use('/tshokim', routes.tshokimRouter);
 app.use('/words', routes.wordsRouter);

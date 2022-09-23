@@ -1,4 +1,5 @@
 import bituyimRouter from "./BituyimRouter";
+import doubleRouter from "./DoubleRouter";
 import nsfwsRouter from "./NsfwsRouter";
 import tshokimRouter from "./TshokimRouter";
 import wordsRouter from "./WordsRouter";
@@ -9,6 +10,7 @@ import binyanRouter from "./BinyanRouter";
 
 export {
     bituyimRouter,
+    doubleRouter,
     nsfwsRouter,
     tshokimRouter,
     wordsRouter,

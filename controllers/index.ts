@@ -5,6 +5,7 @@ import * as BinyanController from './BinyanController';
 import * as NsfwsController from './NsfwsController';
 import * as RemindersController from './RemindersController';
 import * as YoutubeController from './YoutubeController';
+import * as DoubleController from './DoubleController';
 import * as ShoversController from './ShoversController';
 
 export {
@@ -15,5 +16,6 @@ export {
     NsfwsController,
     RemindersController,
     YoutubeController,
+    DoubleController,
     ShoversController,
 }
