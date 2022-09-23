@@ -54,7 +54,7 @@ export const search = async (req: Request, res: Response, next: NextFunction) =>
 
         const admin = req.query.admin as string;
         const isAdmin: boolean = Boolean(admin) || false;
-        logger.info(`Search word by query: ${q ? q : '(no query)'} - ${isAdmin ? 'admin' : 'bot'}`);
+        logger.info(`Search bituy by query: ${q ? q : '(no query)'} - ${isAdmin ? 'admin' : 'bot'}`);
         
         let limit;
 
