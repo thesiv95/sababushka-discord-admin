@@ -34,5 +34,5 @@ const HOST = '0.0.0.0';
 const PORT = +process.env.PORT! || 9000;
 app.listen(PORT, HOST, async () => {
     logger.info(`App started on port ${PORT}`)
-    if (process.env.NODE_ENV === 'dev') logger.warn('dev mode!');
+    if (process.env.NODE_ENV?.startsWith('dev')) logger.warn('dev mode!');
 });
