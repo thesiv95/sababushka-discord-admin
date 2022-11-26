@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.1.1](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.1.0...v1.1.1) (2022-11-26)
+
+
+### Bug Fixes
+
+* remove strict dev mode check at app running ([3f7c09e](https://github.com/thesiv95/sababushka-discord-admin/commit/3f7c09e74be8bbb87cb2229bad5fb09efd8f0396))
+
 ## [1.1.0](https://github.com/thesiv95/sababushka-discord-admin/compare/v1.0.0...v1.1.0) (2022-09-23)
 
 
