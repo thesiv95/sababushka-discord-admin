@@ -30,15 +30,9 @@
     "winston": "^3.6.0"
   },
   "devDependencies": {
-    "cz-conventional-changelog": "^3.0.1",
     "nodemon": "^2.0.15"
   },
   "engines": {
     "node": "16.x"
-  },
-  "config": {
-    "commitizen": {
-      "path": "./node_modules/cz-conventional-changelog"
-    }
   }
 }

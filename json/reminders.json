@@ -4,7 +4,7 @@
   "userName": "thesiv95"
 },{
   "userId": "953385562570653747",
-  "isActive": true,
+  "isActive": false,
   "userName": "Natalya"
 },{
   "userId": "699707979284480211",
@@ -17,9 +17,9 @@
 },{
   "userId": "307864392190656513",
   "userName": "Chezic",
-  "isActive": true
+  "isActive": false
 },{
   "userId": "1003760556920025108",
   "userName": "Ольга01071972",
-  "isActive": true
+  "isActive": false
 }]
