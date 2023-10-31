@@ -1,26 +1,66 @@
 import { Request, Response, NextFunction } from 'express';
-import DoubleModel from '../models/DoubleModel';
+import WarWordsModel from '../models/WarWordsModel';
 import { errorHandler, MyResponseType, successHandler } from '../response';
 import logger from '../utils/logger';
-import dataArray from '../json/doubles.json';
+import dataArray from '../json/warwords.json';
 import SortEnum from '../enums/sort.enum';
-
 
 export const addNew = async (req: Request, res: Response, next: NextFunction) => {
     try {
-        const { ru, single, double } = req.body;
+        const { ru, translit, he } = req.body;
 
-        logger.info(`Trying to create new double-word: ${ru} / ${single} / ${double}`);
+        logger.info(`Trying to create new war word: ${ru} / ${translit} / ${he}`);
 
-        const newRecord = new DoubleModel({
+        const newRecord = new WarWordsModel({
             ru,
-            single,
-            double,
+            translit,
+            he,
         });
 
         await newRecord.save();
 
         return next(successHandler(res, newRecord, MyResponseType.created));
+    } catch (error) {
+        const errorCasted = error as Error;
+        return next(errorHandler(res, errorCasted));
+    }
+};
+
+export const search = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+        const q = req.query.q as string;
+
+        // true = from admin panel, false = from bot (=> how many records to limit)
+        const admin = req.query.admin as string;
+        const isAdmin: boolean = Boolean(admin) || false;
+
+        logger.info(`Search war word by query: ${q ? q : '(no query)'} - ${isAdmin ? 'admin panel' : 'bot'}`);
+
+        let limit;
+
+        if (q && !isAdmin) { // it is from bot with query
+            limit = 3; // should be only first 3 items found in bot msg
+        } else if (q && isAdmin) { // it is from admin panel
+            limit = 10;
+        } else if (!q && !isAdmin) { // it is from bot without query
+            limit = 0;
+        } else { // any other case (as a rule it will not go here but just in case)
+            limit = 0;
+        }
+
+        const filter = {
+            $or: [
+                { ru: { $regex: q, $options: 'i' } },
+                { he: { $regex: q, $options: 'i' } },
+                { translit: { $regex: q, $options: 'i' } },
+            ]
+        };
+
+        const pipeline = q ? filter : {};
+        const foundInfo = await WarWordsModel.find(pipeline).limit(limit);
+
+        return next(successHandler(res, foundInfo, MyResponseType.ok));
+
     } catch (error) {
         const errorCasted = error as Error;
         return next(errorHandler(res, errorCasted));
@@ -37,9 +77,9 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
        const sort = +req.query.sort! || SortEnum.desc;
        const sortOption = sort === SortEnum.asc ? SortEnum.asc : SortEnum.desc;
        
-       logger.info(`double-word page ${page} - sort ${sortOption}`);
+       logger.info(`war words page ${page} - sort ${sortOption}`);
 
-       const foundInfo = await DoubleModel.find({}).sort({ _id: sortOption }).skip(skip).limit(itemsPerPage);
+       const foundInfo = await WarWordsModel.find({}).sort({ _id: sortOption }).skip(skip).limit(itemsPerPage);
 
        return next(successHandler(res, foundInfo, MyResponseType.ok));
     } catch (error) {
@@ -48,56 +88,17 @@ export const getAllItems = async (req: Request, res: Response, next: NextFunctio
     }
 }
 
-export const search = async (req: Request, res: Response, next: NextFunction) => {
-    try {
-        const q = req.query.q as string;
-
-        const admin = req.query.admin as string;
-        const isAdmin: boolean = Boolean(admin) || false;
-        logger.info(`Search double-word by query: ${q ? q : '(no query)'} - ${isAdmin ? 'admin' : 'bot'}`);
-        
-        let limit;
-
-        if (q && !isAdmin) { // it is from bot with query
-            limit = 3; // should be only first 3 items found in bot msg
-        } else if (q && isAdmin) { // it is from admin panel
-            limit = 10;
-        } else if (!q && !isAdmin) { // it is from bot without query
-            limit = 0;
-        } else { // any other case (as a rule it will not go here but just in case)
-            limit = 0;
-        }
-
-        const filter = {
-            $or: [
-                { ru: { $regex: q, $options: 'i' } },
-                { single: { $regex: q, $options: 'i' } },
-                { double: { $regex: q, $options: 'i' } },
-            ]
-        };
-
-        const pipeline = q ? filter : {};
-        const foundInfo = await DoubleModel.find(pipeline).limit(limit);
-
-        return next(successHandler(res, foundInfo, MyResponseType.ok));
-
-    } catch (error) {
-        const errorCasted = error as Error;
-        return next(errorHandler(res, errorCasted));
-    }
-};
-
 export const modify = async (req: Request, res: Response, next: NextFunction) => {
     try {
         const { id } = req.params;
-        const { ru, single, double } = req.body;
+        const { ru, translit, he } = req.body;
 
-        logger.info(`Trying to modify double-word ${id} => ${ru} / ${single} / ${double}`);
+        logger.info(`Trying to modify war word ${id} => ${ru ? ru : '(no changes)'} / ${translit ? translit : '(no changes)'} / ${he ? he : '(no changes)'}`);
 
-        const modifiedRecord = await DoubleModel.findByIdAndUpdate(id, {
-            ru, 
-            single, 
-            double
+        const modifiedRecord = await WarWordsModel.findByIdAndUpdate(id, {
+            ru,
+            translit,
+            he
         }, { new: true });
 
         return next(successHandler(res, modifiedRecord, MyResponseType.modified));
@@ -113,9 +114,9 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const { id } = req.params;
 
-        logger.info(`Trying to delete double-word ${id}`);
+        logger.info(`Trying to delete war word ${id}`);
 
-        const deletedRecord = await DoubleModel.findByIdAndDelete(id);
+        const deletedRecord = await WarWordsModel.findByIdAndDelete(id);
 
         return next(successHandler(res, deletedRecord, MyResponseType.ok));
 
@@ -128,15 +129,15 @@ export const remove = async (req: Request, res: Response, next: NextFunction) =>
 
 export const restore = async (_req: Request, res: Response, next: NextFunction) => {
     try {
-        logger.info('restoring double-words');
+        logger.info('restoring war words');
 
         const insertDataMapped = dataArray.map((el) => {
             return {
                 insertOne: {
                     document: {
-                        ru: el.ru,
-                        single: el.single,
-                        double: el.double
+                        he: el.he,
+                        translit: el.translit,
+                        ru: el.ru
                     }
                 } 
             }
@@ -147,7 +148,7 @@ export const restore = async (_req: Request, res: Response, next: NextFunction) 
             ...insertDataMapped,
         ];
         
-        await DoubleModel.bulkWrite(pipeline);
+        await WarWordsModel.bulkWrite(pipeline);
 
         return next(successHandler(res, { restored: true }, MyResponseType.ok));
     } catch (error) {
